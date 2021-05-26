@@ -49,10 +49,13 @@ build_RPMs() {
     yum install -y pam-devel rpm-build rpmdevtools zlib-devel openssl-devel krb5-devel gcc wget libx11-dev gtk2-devel libXt-devel
     mkdir -p ~/rpmbuild/SOURCES && cd ~/rpmbuild/SOURCES
 
-    wget -c https://mirrors.tuna.tsinghua.edu.cn/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz
-    wget -c https://mirrors.tuna.tsinghua.edu.cn/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz.asc
-    wget -c https://mirrors.tuna.tsinghua.edu.cn/slackware/slackware64-current/source/xap/x11-ssh-askpass/x11-ssh-askpass-1.2.4.1.tar.gz
+    # wget -c https://mirrors.tuna.tsinghua.edu.cn/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz
+    # wget -c https://mirrors.tuna.tsinghua.edu.cn/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz.asc
+    # wget -c https://mirrors.tuna.tsinghua.edu.cn/slackware/slackware64-current/source/xap/x11-ssh-askpass/x11-ssh-askpass-1.2.4.1.tar.gz
 
+    wget -c https://openbsd.cs.toronto.edu/pub/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz
+    wget -c https://openbsd.cs.toronto.edu/pub/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz.sig
+    
     tar zxvf openssh-${version}.tar.gz
     yes | cp /etc/pam.d/sshd openssh-${version}/contrib/redhat/sshd.pam
     mv openssh-${version}.tar.gz{,.orig}
