@@ -54,7 +54,7 @@ build_RPMs() {
     # wget -c https://mirrors.tuna.tsinghua.edu.cn/slackware/slackware64-current/source/xap/x11-ssh-askpass/x11-ssh-askpass-1.2.4.1.tar.gz
 
     wget -c https://openbsd.cs.toronto.edu/pub/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz
-    wget -c https://openbsd.cs.toronto.edu/pub/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz.sig
+    wget -c https://openbsd.cs.toronto.edu/pub/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz.asc
     wget -c https://mirror.its.dal.ca/slackware/slackware-14.2/source/xap/x11-ssh-askpass/x11-ssh-askpass-1.2.4.1.tar.gz
     
     tar zxvf openssh-${version}.tar.gz
