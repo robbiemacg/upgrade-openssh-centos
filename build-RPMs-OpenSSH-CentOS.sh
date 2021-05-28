@@ -18,8 +18,9 @@
 #
 #
 #
-# Tool to build OpenSSH RPM package for rhel6 & rhel7, not yet tested on rhel8.
+# Tool to build OpenSSH RPM package for rhel6 & rhel7... AND now adapted to work with CentOS8 as well.
 # Build test pass on Centos 7 with openssh version {7.9p1,8.0p1,8.1p1,8.2p1,8.3p1}
+# AND on CentOS 8 with openssh version 8.3p1
 #
 # Usage:
 #   bash <(curl -sSL https://github.com/Junyangz/upgrade-openssh-centos/raw/master/build-RPMs-OpenSSH-CentOS.sh) \
@@ -51,7 +52,7 @@ usage() {
 
 build_RPMs() {
     local output_rpm_dir="${1}"
-    if [[$(rpm --eval '%{centos_ver}')==8]]; then
+    if [[ $(rpm --eval '%{centos_ver}')==8 ]]; then
         dnf install -y dnf-plugins-core epel-release && dnf config-manager --set-enabled PowerTools
         dnf install -y pam-devel rpm-build rpmdevtools zlib-devel openssl-devel krb5-devel gcc wget libX11-devel gtk2-devel libXt-devel perl perl-devel imake
     else
@@ -173,7 +174,7 @@ main() {
     build_RPMs "${output_dir}"
     if [[ -z ${upgrade_now} ]]; then
         while true; do
-            read -p "You don't set upgrade_now value, do you want install upgrade now? [y/N]: " yn
+            read -p "You didn't set the upgrade_now value, do you want install upgrade now? [y/N]: " yn
             case $yn in
             [Yy]*)
                 upgrade_openssh "${output_dir}"
