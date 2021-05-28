@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+#
 # Copyright 2020, Junyangz
+# Adapted 2021, robbiemacg
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,6 +14,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+#
+#
 #
 # Tool to build OpenSSH RPM package for rhel6 & rhel7, not yet tested on rhel8.
 # Build test pass on Centos 7 with openssh version {7.9p1,8.0p1,8.1p1,8.2p1,8.3p1}
@@ -46,13 +51,15 @@ usage() {
 
 build_RPMs() {
     local output_rpm_dir="${1}"
-    yum install -y pam-devel rpm-build rpmdevtools zlib-devel openssl-devel krb5-devel gcc wget libx11-dev gtk2-devel libXt-devel imake
+    if (($(rpm --eval '%{centos_ver}')==8)); then
+        dnf install -y dnf-plugins-core epel-release && dnf config-manager --set-enabled PowerTools
+        dnf install -y pam-devel rpm-build rpmdevtools zlib-devel openssl-devel krb5-devel gcc wget libX11-devel gtk2-devel libXt-devel perl perl-devel imake
+    else
+        yum install -y pam-devel rpm-build rpmdevtools zlib-devel openssl-devel krb5-devel gcc wget libx11-dev gtk2-devel libXt-devel imake
+    fi
+    
     mkdir -p ~/rpmbuild/SOURCES && cd ~/rpmbuild/SOURCES
-
-    # wget -c https://mirrors.tuna.tsinghua.edu.cn/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz
-    # wget -c https://mirrors.tuna.tsinghua.edu.cn/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz.asc
-    # wget -c https://mirrors.tuna.tsinghua.edu.cn/slackware/slackware64-current/source/xap/x11-ssh-askpass/x11-ssh-askpass-1.2.4.1.tar.gz
-
+     
     wget -c https://openbsd.cs.toronto.edu/pub/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz
     wget -c https://openbsd.cs.toronto.edu/pub/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz.asc
     wget -c https://mirror.its.dal.ca/slackware/slackware-14.2/source/xap/x11-ssh-askpass/x11-ssh-askpass-1.2.4.1.tar.gz
